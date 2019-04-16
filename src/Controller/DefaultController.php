@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DefaultController
+class DefaultController extends AbstractController
 {
 
     /**
@@ -14,7 +15,8 @@ class DefaultController
      */
     public function index()
     {
-        return new Response("<html><body><h1>PAGE D'ACCUEIL</h1></body></html>");
+        return $this->render("default/index.html.twig");
+        #return new Response("<html><body><h1>PAGE D'ACCUEIL</h1></body></html>");
     }
 
     /**
@@ -22,7 +24,8 @@ class DefaultController
      */
     public function contact()
     {
-        return new Response("<html><body><h1>PAGE CONTACT</h1></body></html>");
+        return $this->render("default/contact.html.twig");
+        # return new Response("<html><body><h1>PAGE CONTACT</h1></body></html>");
     }
 
     /**
@@ -35,7 +38,21 @@ class DefaultController
      */
     public function categorie($slug)
     {
-        return new Response("<html><body><h1>PAGE CATEGORIE : $slug</h1></body></html>");
+        return $this->render('default/categorie.html.twig');
+    }
+
+    /**
+     * Page permettant d'afficher un article.
+     * @Route("/{categorie}/{slug}_{id<\d+>}.html",
+     *     name="default_article")
+     */
+    public function article($categorie, $slug, $id)
+    {
+        # Exemple d'URL
+        # /politique/macron-bientot-vers-une-demission_965433.html
+        # /sports/le-psg-se-ridiculise-dans-le-nord_409572.html
+
+        return $this->render('default/article.html.twig');
     }
 
 }
