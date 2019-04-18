@@ -22,24 +22,32 @@ class ArticleController extends AbstractController
     {
         # Création d'une Catégorie
         $categorie = new Categorie();
-        $categorie->setNom("Politique");
-        $categorie->setSlug("politique");
+        $categorie->setNom("Sport");
+        $categorie->setSlug("Sport");
+
+        /*$categorie = $this->getDoctrine()
+            ->getRepository(Categorie::class)
+            ->find(1);*/
 
         # Création d'un Auteur (Membre)
-        $membre = new Membre();
+        /*$membre = new Membre();
         $membre->setPrenom("Hugo")
                 ->setNom("LIEGEARD")
                 ->setEmail("hugo@technews.com")
                 ->setPassword("test")
                 ->setRoles(['ROLE_AUTEUR'])
-                ->setDateInscription(new \DateTime());
+                ->setDateInscription(new \DateTime());*/
+
+        $membre = $this->getDoctrine()
+            ->getRepository(Membre::class)
+            ->find(1);
 
         # Création de l'Article
         $article = new Article();
-        $article->setTitre("Notre-Dame de Paris : pourra-t-on la reconstruire en 5 ans ?")
-                ->setSlug("notre-dame-de-paris-pourra-t-on-la-reconstruire-en-5-ans")
-                ->setContenu("<p>Bâtie en presque 200 ans, la cathédrale Notre-Dame de Paris se prépare à un chantier pharaonique pour retrouver son éclat. Mais quand pouvoir débuter les travaux ? Pour le moment, l'heure est au diagnostic. La structure a été fragilisée par les tonnes d'eau déversée pour éteindre l'incendie. Il faudra ensuite démonter l'immense échafaudage.</p>")
-                ->setFeaturedImage("19113767.jpg")
+        $article->setTitre('Foot : Liverpool et Tottenham se qualifient pour les demi-finales de la Ligue des champions')
+                ->setSlug("foot-liverpool-et-tottenham-se-qualifient-pour-les-demi-finales-de-la-ligue-des-champions")
+                ->setContenu('<p>Tout droit vers les demi-finales ! Liverpool et Tottenham se sont qualifiés pour les demi-finales de la Ligue des champions, mercredi 17 avril. Après leur victoire 2-0 au match aller, les coéquipiers de Mohamed Salah ont facilement battu le FC Porto 1 à 4. Les Reds affronteront le FC Barcelone au prochain tour.</p>')
+                ->setFeaturedImage("19123863.jpg")
                 ->setSpotlight(1)
                 ->setSpecial(0)
                 ->setMembre($membre)
