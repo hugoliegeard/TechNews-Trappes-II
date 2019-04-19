@@ -4,6 +4,14 @@
     Accueil
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .grid-sizer,
+        .grid-item { width: calc( (100% / 3) - 20px); }
+    </style>
+{% endblock %}
+
 {% block content %}
 <div class="row">
     <!--colleft-->
@@ -41,7 +49,7 @@
                                     {{ article.dateCreation | date('d/m/Y') }}
                                 </span>
                             </div>
-                            {{ article.contenu | raw }}
+                            {{ article.contenu | summarize }}
                         </div>
                     </article>
                 </div>
@@ -50,9 +58,10 @@
 
         <!--spotlight-thumbs-->
         <section class="spotlight-thumbs">
-            <div class="row">
+            <div class="row grid">
+            <div class="grid-sizer"></div>
                 {% for article in articles %}
-                    <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="col-md-4 col-sm-4 col-xs-12 grid-item">
                         <div class="spotlight-item-thumb">
                             <div class="spotlight-item-thumb-img">
                                 <a href="{{ path('default_article', {
@@ -90,6 +99,27 @@
         </section>
     </div>
 
-    {% include 'components/_sidebar.html.twig' %}
+    {#{% include 'components/_sidebar.html.twig' %}#}
+    {{ render(controller('App\\Controller\\DefaultController::sidebar')) }}
 
     {% endblock %}
+
+    {% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.1/masonry.pkgd.min.js" integrity="sha256-D3o+8eRzMxa6mD+EDWrS5rMcEaAhISmCnRLdQ8kS2t4=" crossorigin="anonymous"></script>
+    <script src="https://npmcdn.com/imagesloaded@4.1/imagesloaded.pkgd.min.js"></script>
+
+    <script>
+        $(function() {
+            var $grid = $('.grid').masonry({
+                itemSelector: '.grid-item',
+                columnWidth: '.grid-sizer',
+                percentPosition: true,
+                gutter: 15
+            });
+            $grid.imagesLoaded().progress( function() {
+                $grid.masonry('layout');
+            });
+        })
+    </script>
+{% endblock %}
